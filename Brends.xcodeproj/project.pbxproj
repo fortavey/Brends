@@ -6,13 +6,33 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AAA363DA2EF4053700373CCD /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = AAA363D92EF4053700373CCD /* FirebaseCore */; };
+		AAA363DC2EF4053700373CCD /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = AAA363DB2EF4053700373CCD /* FirebaseDatabase */; };
+		AAA363DE2EF4053700373CCD /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AAA363DD2EF4053700373CCD /* FirebaseFirestore */; };
+		AAA363E02EF4053700373CCD /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = AAA363DF2EF4053700373CCD /* FirebaseFunctions */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		AAA363AC2EF4017400373CCD /* Brends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brends.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		AA492CCF2F17A608001F96E1 /* Exceptions for "Brends" folder in "Brends" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AAA363AB2EF4017400373CCD /* Brends */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AAA363AE2EF4017400373CCD /* Brends */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				AA492CCF2F17A608001F96E1 /* Exceptions for "Brends" folder in "Brends" target */,
+			);
 			path = Brends;
 			sourceTree = "<group>";
 		};
@@ -23,6 +43,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAA363DC2EF4053700373CCD /* FirebaseDatabase in Frameworks */,
+				AAA363DA2EF4053700373CCD /* FirebaseCore in Frameworks */,
+				AAA363DE2EF4053700373CCD /* FirebaseFirestore in Frameworks */,
+				AAA363E02EF4053700373CCD /* FirebaseFunctions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				AAA363AE2EF4017400373CCD /* Brends */,
+				AAA363D82EF4053700373CCD /* Frameworks */,
 				AAA363AD2EF4017400373CCD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +68,13 @@
 				AAA363AC2EF4017400373CCD /* Brends.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AAA363D82EF4053700373CCD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +97,10 @@
 			);
 			name = Brends;
 			packageProductDependencies = (
+				AAA363D92EF4053700373CCD /* FirebaseCore */,
+				AAA363DB2EF4053700373CCD /* FirebaseDatabase */,
+				AAA363DD2EF4053700373CCD /* FirebaseFirestore */,
+				AAA363DF2EF4053700373CCD /* FirebaseFunctions */,
 			);
 			productName = Brends;
 			productReference = AAA363AC2EF4017400373CCD /* Brends.app */;
@@ -94,6 +130,9 @@
 			);
 			mainGroup = AAA363A32EF4017400373CCD;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AAA363C02EF4027200373CCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AAA363AD2EF4017400373CCD /* Products */;
 			projectDirPath = "";
@@ -255,6 +294,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Brends/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Brends/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -280,6 +320,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Brends/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Brends/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -315,6 +356,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AAA363C02EF4027200373CCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AAA363D92EF4053700373CCD /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAA363C02EF4027200373CCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		AAA363DB2EF4053700373CCD /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAA363C02EF4027200373CCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		AAA363DD2EF4053700373CCD /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAA363C02EF4027200373CCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		AAA363DF2EF4053700373CCD /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AAA363C02EF4027200373CCD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AAA363A42EF4017400373CCD /* Project object */;
 }
