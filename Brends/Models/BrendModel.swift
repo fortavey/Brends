@@ -13,11 +13,13 @@ struct CountryModel: Identifiable {
     var languages: [String]
 }
 
-struct BrendModel: Identifiable {
+struct BrendModel: Hashable, Identifiable {
     var id: String
     var name: String
     var trackerLink: String
     var сountries: [String]
     var languages: [String]
     var isFavorite: Bool
+    var isLocal: Bool
+    var limitCounter: Int
 }

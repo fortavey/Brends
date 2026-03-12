@@ -7,36 +7,24 @@
 
 import SwiftUI
 
-struct Buttonnn: View {
-    var body: some View {
-        Button("CLICK"){
-            if let dict = Bundle.main.infoDictionary?["Countries"] as? [String: String] {
-                for (key, value) in dict {
-                    print("Ключ: \(key), Значение: \(value)")
-                }
-            }
-        }
-    }
-}
-
 struct ContentView: View {
-    @State private var brendsList: [BrendModel] = []
+    @State var viewModel = ContentViewModel()
     @State private var searchText: String = ""
     @State private var showingAddNewBrendSheet = false
     
     var body: some View {
         NavigationSplitView {
-            if brendsList.isEmpty {
+            if viewModel.brendsList.isEmpty {
                 Button("Сформировать"){
-                    getBrendsList()
+                    viewModel.getBrendsList()
                 }
             }else {
                 VStack{
                     List(sortBrendsList()) { brend in
-                        NavigationLink(brend.name, destination: Buttonnn())
+                        NavigationLink(brend.name, destination: BrendItemView(brend: brend, viewModel: viewModel).id(brend.id))
                         if sortBrendsList().last?.name == brend.name {
                             Spacer()
-                            NavigationLink("Добавить", destination: AddNewBrendView())
+                            NavigationLink("Добавить", destination: AddNewBrendView(viewModel: viewModel))
                             NavigationLink("Страны", destination: CountriesView())
                         }
                     }
@@ -51,37 +39,9 @@ struct ContentView: View {
     
     func sortBrendsList() -> [BrendModel]{
         if searchText.isEmpty {
-            return brendsList.sorted { $0.name < $1.name }
+            return viewModel.brendsList.sorted { $0.name < $1.name }
         }else {
-            return brendsList.sorted { $0.name < $1.name }.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+            return viewModel.brendsList.sorted { $0.name < $1.name }.filter { $0.name.lowercased().contains(searchText.lowercased()) }
         }
     }
-    
-    func getBrendsList(){
-        FirebaseServices().getDocuments(collection: "brends") { docs in
-            var array: [BrendModel] = []
-            
-            docs.forEach{doc in
-                let id = doc.documentID
-                let name = doc["name"] as? String
-                let trackerLink = doc["trackerLink"] as? String
-                let countries = doc["countries"] as? [String]
-                let languages = doc["languages"] as? [String]
-                let isFavorite = doc["isFavorite"] as? Bool
-                
-                array.append(
-                    BrendModel(
-                        id: id,
-                        name: name ?? "",
-                        trackerLink: trackerLink ?? "",
-                        сountries: countries ?? [],
-                        languages: languages ?? [],
-                        isFavorite: isFavorite ?? false
-                    )
-                )
-            }
-            self.brendsList = array
-        }
-    }
-    
 }
