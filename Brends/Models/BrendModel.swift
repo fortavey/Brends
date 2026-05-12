@@ -18,9 +18,10 @@ struct BrendModel: Hashable, Identifiable {
     var name: String
     var trackerLink: String
     var creoLink: String
-    var сountries: [String]
+    var countries: [String]
     var languages: [String]
     var isFavorite: Bool
     var isLocal: Bool
     var limitCounter: Int
+    var isPaused: Bool
 }

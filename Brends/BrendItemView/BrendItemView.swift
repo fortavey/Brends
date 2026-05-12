@@ -8,17 +8,26 @@
 import SwiftUI
 import FirebaseFirestore
 
+struct Country: Identifiable {
+    var id = UUID()
+    var code: String
+    var name: String
+}
+
 struct BrendItemView: View {
     var brend: BrendModel
     var viewModel: ContentViewModel
+    @State private var countries: [String]
     @State private var isActiveChanges: Bool = false
     @State private var name: String
     @State private var trackerLink: String
     @State private var creoLink: String
     @State private var limitCounter: Int
     @State private var isFavorite: Bool
+    @State private var isPaused: Bool
     @State private var isLocal: Bool
     @State private var isChangeName:Bool = false
+    @State private var isCountryesList:Bool = false
     
     init(brend: BrendModel, viewModel: ContentViewModel) {
         self.viewModel = viewModel
@@ -28,21 +37,31 @@ struct BrendItemView: View {
         self.creoLink = brend.creoLink
         self.limitCounter = brend.limitCounter
         self.isFavorite = brend.isFavorite
+        self.isPaused = brend.isPaused
         self.isLocal = brend.isLocal
+        self.countries = brend.countries
     }
     
     var body: some View {
         Text(name)
             .font(.title)
         HStack{
+            Button{
+                let pasteboard = NSPasteboard.general
+                pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+                pasteboard.setString(name, forType: .string)
+            }label: {
+                Image(systemName: "doc.on.doc")
+            }
             TextField("Бренд", text: $name)
                 .padding(.horizontal, 30)
                 .disabled(!isChangeName)
             Button("Изменить"){
                 isChangeName.toggle()
             }
-            .padding(.horizontal, 30)
         }
+        .padding(.horizontal, 30)
+        
         TextField("Ссылка", text: $trackerLink)
             .padding(.horizontal, 30)
             .onChange(of: trackerLink) { (old, new) in
@@ -54,14 +73,26 @@ struct BrendItemView: View {
                 isActiveChanges = true
             }
         HStack {
-            TextField("Минимальное количество", value: $limitCounter, format: .number)
-                .textFieldStyle(.roundedBorder)
-            
-            Stepper("", value: $limitCounter, in: 0...15, step: 1)
-                .labelsHidden()
+            Text("Кластер")
+                .font(.title2)
+            ForEach(1...15, id: \.self) { cluster in
+                if limitCounter == cluster {
+                    Button("\(cluster)"){
+                        limitCounter = cluster
+                    }
+                    .buttonStyle(.borderedProminent)
+                }else {
+                    Button("\(cluster)"){
+                        limitCounter = cluster
+                    }
+                }
+            }
             Spacer()
         }
-        .padding(.horizontal, 30)
+        .onChange(of: limitCounter) { (old, new) in
+            isActiveChanges = true
+        }
+        .padding(30)
         HStack{
             Toggle("Основа", isOn: $isFavorite)
                 .toggleStyle(.switch)
@@ -77,6 +108,13 @@ struct BrendItemView: View {
                 .onChange(of: isLocal) { (old, new) in
                     isActiveChanges = true
                 }
+            Toggle("На паузе", isOn: $isPaused)
+                .toggleStyle(.switch)
+                .tint(.green)
+                .padding(.horizontal, 30)
+                .onChange(of: isPaused) { (old, new) in
+                    isActiveChanges = true
+                }
             Spacer()
         }
         
@@ -86,7 +124,41 @@ struct BrendItemView: View {
             }
         }
         
-        Spacer()
+        VStack{
+            HStack{
+                Text("Страны")
+                    .font(.title2)
+                    .padding(.top, 20)
+                    .onChange(of: countries) { (old, new) in
+                        isActiveChanges = true
+                    }
+                Spacer()
+            }
+            if !countries.isEmpty {
+                HStack{
+                    ForEach(countries, id: \.self){ code in
+                        HStack{
+                            CountryItemView(countries: $countries, code: code, countryName: viewModel.countriesDict![code] ?? "Страна")
+                        }
+                    }
+                    Spacer()
+                }
+                
+            }
+            Button(action: {
+                isCountryesList.toggle()
+            }, label: {
+                Image(systemName: isCountryesList ? "minus" : "plus")
+            })
+        }
+        .padding(.horizontal, 30)
+        
+        if isCountryesList {
+            CountriesSheet(viewModel: viewModel, countriesList: $countries)
+        }else {
+            Spacer()
+        }
+        
         Button("Удалить"){
             removeBrend()
         }
@@ -101,16 +173,18 @@ struct BrendItemView: View {
                                             "creoLink": creoLink,
                                             "limitCounter": limitCounter,
                                             "isFavorite": isFavorite,
+                                            "isPaused": isPaused,
                                             "isLocal": isLocal,
+                                            "countries": Array(countries)
                                           ]) { result in
-            if result {
-                viewModel.getBrendsList()
-                isActiveChanges = false
-            }else {
-                print("Ошибка обновления")
-                
-            }
-        }
+                                              if result {
+                                                  viewModel.getBrendsList()
+                                                  isActiveChanges = false
+                                              }else {
+                                                  print("Ошибка обновления")
+                                                  
+                                              }
+                                          }
     }
     
     private func removeBrend(){

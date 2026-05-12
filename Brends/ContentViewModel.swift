@@ -12,6 +12,8 @@ import Combine
 class ContentViewModel {
     var brendsList: [BrendModel] = []
     
+    var countriesDict = Bundle.main.object(forInfoDictionaryKey: "Countries") as? [String:String]
+    
     func getBrendsList(){
         FirebaseServices().getDocuments(collection: "brends") { docs in
             var array: [BrendModel] = []
@@ -26,6 +28,7 @@ class ContentViewModel {
                 let limitCounter = doc["limitCounter"] as? Int
                 let isFavorite = doc["isFavorite"] as? Bool
                 let isLocal = doc["isLocal"] as? Bool
+                let isPaused = doc["isPaused"] as? Bool
                 
                 array.append(
                     BrendModel(
@@ -33,11 +36,12 @@ class ContentViewModel {
                         name: name ?? "",
                         trackerLink: trackerLink ?? "",
                         creoLink: creoLink ?? "",
-                        сountries: countries ?? [],
+                        countries: countries ?? [],
                         languages: languages ?? [],
                         isFavorite: isFavorite ?? false,
                         isLocal: isLocal ?? false,
-                        limitCounter: limitCounter ?? 5
+                        limitCounter: limitCounter ?? 5,
+                        isPaused: isPaused ?? false
                     )
                 )
             }
